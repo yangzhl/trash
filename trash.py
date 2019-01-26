@@ -14,7 +14,18 @@ def trash(*files, **options):
         f = os.path.expanduser(f)
         to = os.path.join(trash_dir, f.split('/')[-1] + timestamp)
         print('%s -> %s' % (f, to))
-        move(f, to)
+        try:
+            move(f, to)
+        except  IOError:
+            trashdir=os.path.dirname(to)
+            print(trashdir+'is not exist')
+            #print  trashdir
+            os.makedirs(trashdir)
+            print('mkdir '+trashdir)
+            move(f, to)
+
+
+
 
 
 if __name__ == '__main__':
